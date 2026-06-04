@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Musica API</title>
+    <style>
+        :root {
+            color-scheme: light;
+            font-family: Arial, sans-serif;
+            background: #f5f7f8;
+            color: #1f2933;
+        }
+
+        body {
+            margin: 0;
+        }
+
+        header {
+            background: #1f6f78;
+            color: white;
+            padding: 24px;
+        }
+
+        main {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            padding: 24px;
+        }
+
+        section {
+            background: white;
+            border: 1px solid #d7dee2;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        h1, h2 {
+            margin: 0 0 12px;
+        }
+
+        ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        li {
+            border-top: 1px solid #edf1f3;
+            padding: 10px 0;
+        }
+
+        small {
+            color: #58656d;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>Musica API</h1>
+    <p>Consulta rapida de datos persistidos en H2.</p>
+</header>
+<main>
+    <section>
+        <h2>Artistas</h2>
+        <ul id="artistas"></ul>
+    </section>
+    <section>
+        <h2>Canciones</h2>
+        <ul id="canciones"></ul>
+    </section>
+    <section>
+        <h2>Playlists</h2>
+        <ul id="playlists"></ul>
+    </section>
+</main>
+<script>
+    async function cargar(endpoint, elementoId, pintar) {
+        const respuesta = await fetch(endpoint);
+        const datos = await respuesta.json();
+        document.getElementById(elementoId).innerHTML = datos.map(pintar).join("");
+    }
+
+    cargar("/api/v1/artistas", "artistas", artista =>
+        `<li><strong>${artista.nombre}</strong><br><small>${artista.generoMusical} · ${artista.pais}</small></li>`);
+
+    cargar("/api/v1/canciones", "canciones", cancion =>
+        `<li><strong>${cancion.titulo}</strong><br><small>${cancion.album} · ${cancion.duracion}s</small></li>`);
+
+    cargar("/api/v1/playlists", "playlists", playlist =>
+        `<li><strong>${playlist.nombre}</strong><br><small>${playlist.descripcion ?? ""}</small></li>`);
+</script>
+</body>
+</html>

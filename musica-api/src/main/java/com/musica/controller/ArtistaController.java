@@ -1,7 +1,8 @@
-package com.example.musica.controller;
+package com.musica.controller;
 
-import com.example.musica.model.Artista;
-import com.example.musica.service.ArtistaService;
+import com.musica.model.Artista;
+import com.musica.service.ArtistaService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,27 +26,21 @@ public class ArtistaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Artista> obtenerPorId(@PathVariable Long id) {
-
         return artistaService.obtenerPorId(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public ResponseEntity<Artista> crear(@RequestBody Artista artista) {
-
+    public ResponseEntity<Artista> crear(@Valid @RequestBody Artista artista) {
         Artista nuevo = artistaService.guardar(artista);
-
         return ResponseEntity
                 .created(URI.create("/api/v1/artistas/" + nuevo.getId()))
                 .body(nuevo);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Artista> actualizar(
-            @PathVariable Long id,
-            @RequestBody Artista artista) {
-
+    public ResponseEntity<Artista> actualizar(@PathVariable Long id, @Valid @RequestBody Artista artista) {
         return artistaService.actualizar(id, artista)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
@@ -53,33 +48,18 @@ public class ArtistaController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
-
         if (artistaService.eliminar(id)) {
             return ResponseEntity.noContent().build();
         }
-
         return ResponseEntity.notFound().build();
     }
 
     @GetMapping("/buscar")
     public ResponseEntity<List<Artista>> buscar(
             @RequestParam(required = false) String nombre,
-            @RequestParam(required = false) String genero) {
-
-        if (nombre != null) {
-            return ResponseEntity.ok(
-                    artistaService.buscarPorNombre(nombre)
-            );
-        }
-
-        if (genero != null) {
-            return ResponseEntity.ok(
-                    artistaService.buscarPorGenero(genero)
-            );
-        }
-
-        return ResponseEntity.ok(
-                artistaService.obtenerTodos()
-        );
+            @RequestParam(required = false) String genero,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(defaultValue = "asc") String order) {
+        return ResponseEntity.ok(artistaService.buscar(nombre, genero, sortBy, order));
     }
 }

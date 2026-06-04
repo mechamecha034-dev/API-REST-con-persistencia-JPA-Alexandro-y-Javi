@@ -1,7 +1,8 @@
-package com.example.musica.service;
+package com.musica.service;
 
-import com.example.musica.model.Artista;
-import com.example.musica.repository.ArtistaRepository;
+import com.musica.model.Artista;
+import com.musica.repository.ArtistaRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -29,35 +30,38 @@ public class ArtistaService {
     }
 
     public Optional<Artista> actualizar(Long id, Artista nuevoArtista) {
-
         return artistaRepository.findById(id)
                 .map(artista -> {
-
                     artista.setNombre(nuevoArtista.getNombre());
                     artista.setPais(nuevoArtista.getPais());
                     artista.setGeneroMusical(nuevoArtista.getGeneroMusical());
                     artista.setAnioDebut(nuevoArtista.getAnioDebut());
                     artista.setActivo(nuevoArtista.getActivo());
-
                     return artistaRepository.save(artista);
                 });
     }
 
     public boolean eliminar(Long id) {
-
         if (artistaRepository.existsById(id)) {
             artistaRepository.deleteById(id);
             return true;
         }
-
         return false;
     }
 
-    public List<Artista> buscarPorNombre(String nombre) {
-        return artistaRepository.findByNombreContainingIgnoreCase(nombre);
+    public List<Artista> buscar(String nombre, String genero, String sortBy, String order) {
+        Sort sort = crearSort(sortBy, order);
+        if (nombre != null && !nombre.isBlank()) {
+            return artistaRepository.findByNombreContainingIgnoreCase(nombre, sort);
+        }
+        if (genero != null && !genero.isBlank()) {
+            return artistaRepository.findByGeneroMusicalIgnoreCase(genero, sort);
+        }
+        return artistaRepository.findAll(sort);
     }
 
-    public List<Artista> buscarPorGenero(String genero) {
-        return artistaRepository.findByGeneroMusicalIgnoreCase(genero);
+    private Sort crearSort(String sortBy, String order) {
+        Sort.Direction direction = "desc".equalsIgnoreCase(order) ? Sort.Direction.DESC : Sort.Direction.ASC;
+        return Sort.by(direction, sortBy);
     }
 }

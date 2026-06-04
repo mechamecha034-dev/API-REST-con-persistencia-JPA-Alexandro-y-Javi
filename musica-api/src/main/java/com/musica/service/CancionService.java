@@ -1,8 +1,10 @@
-package com.example.musica.service;
+package com.musica.service;
 
-import com.example.musica.model.Cancion;
-import com.example.musica.repository.CancionRepository;
+import com.musica.model.Cancion;
+import com.musica.repository.CancionRepository;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -15,40 +17,49 @@ public class CancionService {
         this.cancionRepository = cancionRepository;
     }
 
-    public List<Cancion> findAll() {
+    public List<Cancion> obtenerTodas() {
         return cancionRepository.findAll();
     }
 
-    public Optional<Cancion> findById(Long id) {
+    public Optional<Cancion> obtenerPorId(Long id) {
         return cancionRepository.findById(id);
     }
 
-    public Cancion save(Cancion cancion) {
+    public Cancion guardar(Cancion cancion) {
         return cancionRepository.save(cancion);
     }
 
-    public Optional<Cancion> update(Long id, Cancion cancionDetails) {
-        return cancionRepository.findById(id).map(cancionExistente -> {
-            cancionExistente.setTitulo(cancionDetails.getTitulo());
-            cancionExistente.setArtista(cancionDetails.getArtista());
-            cancionExistente.setAlbum(cancionDetails.getAlbum());
-            cancionExistente.setDuracion(cancionDetails.getDuracion());
-            return cancionRepository.save(cancionExistente);
-        });
+    public Optional<Cancion> actualizar(Long id, Cancion datos) {
+        return cancionRepository.findById(id)
+                .map(cancion -> {
+                    cancion.setTitulo(datos.getTitulo());
+                    cancion.setArtista(datos.getArtista());
+                    cancion.setAlbum(datos.getAlbum());
+                    cancion.setDuracion(datos.getDuracion());
+                    return cancionRepository.save(cancion);
+                });
     }
 
-    public boolean delete(Long id) {
-        return cancionRepository.findById(id).map(cancion -> {
-            cancionRepository.delete(cancion);
-            return true;
-        }).orElse(false);
+    public boolean eliminar(Long id) {
+        return cancionRepository.findById(id)
+                .map(cancion -> {
+                    cancionRepository.delete(cancion);
+                    return true;
+                })
+                .orElse(false);
     }
 
-    public List<Cancion> buscarPorTitulo(String titulo) {
-        return cancionRepository.findByTituloContainingIgnoreCase(titulo);
+    public List<Cancion> buscar(String titulo, String sortBy, String order) {
+        Sort.Direction direction = "desc".equalsIgnoreCase(order) ? Sort.Direction.DESC : Sort.Direction.ASC;
+        Sort sort = Sort.by(direction, sortBy);
+        return cancionRepository.findByTituloContainingIgnoreCase(titulo, sort);
     }
 
     public List<Cancion> buscarPorArtista(Long artistaId) {
         return cancionRepository.findByArtistaId(artistaId);
+    }
+
+    public Long contarPorArtista(Long artistaId) {
+        return cancionRepository.contarCancionesPorArtista(artistaId);
     }
 }
