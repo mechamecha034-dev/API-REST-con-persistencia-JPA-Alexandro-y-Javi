@@ -91,14 +91,26 @@ erDiagram
 
 ## Capturas de base de datos
 
-Para la entrega final hay que anadir capturas reales desde `http://localhost:8080/h2-console` mostrando estas tablas:
+Capturas reales desde `http://localhost:8080/h2-console` mostrando las tablas generadas por JPA:
 
 - `ARTISTAS`
 - `CANCIONES`
 - `PLAYLISTS`
 - `PLAYLIST_CANCIONES`
 
-Tambien conviene incluir una captura de la consola del servidor mostrando el SQL generado por Hibernate, porque `spring.jpa.show-sql=true` esta activado.
+![Tablas H2](CAPTURAS/CAPTURA%201.png)
+
+![Datos H2 1](CAPTURAS/CAPTURA%202.png)
+
+![Datos H2 2](CAPTURAS/CAPTURA%203.png)
+
+![Datos H2 3](CAPTURAS/CAPTURA%204.png)
+
+Capturas de la consola del servidor mostrando SQL generado por Hibernate, con `spring.jpa.show-sql=true` activado:
+
+![SQL Hibernate 1](CAPTURAS/CAPTURA_TERMINAL_HIBERNATE.png)
+
+![SQL Hibernate 2](CAPTURAS/CAPTURA_TERMINAL_HIBERNATE_2.png)
 
 ## Pruebas recomendadas para la defensa
 

@@ -14,6 +14,19 @@ cd musica-api
 mvn spring-boot:run
 ```
 
+Tambien se puede arrancar con el comando indicado en el checklist de la tarea:
+
+```bash
+./mvnw spring-boot:run
+```
+
+Si se usa PowerShell y Maven no detecta Java, ejecutar antes:
+
+```powershell
+$env:JAVA_HOME="C:\Program Files\Eclipse Adoptium\jdk-17.0.17.10-hotspot"
+$env:Path="$env:JAVA_HOME\bin;$env:Path"
+```
+
 La API queda disponible en:
 
 - API: `http://localhost:8080/api/v1`
@@ -107,3 +120,9 @@ Crear playlist:
 ## Documentacion de diseno
 
 El documento de diseno esta en [docs/diseno.md](musica-api/docs/diseno.md).
+
+Tambien se incluyen:
+
+- Guia de defensa: [docs/guia-defensa.md](musica-api/docs/guia-defensa.md)
+- Coleccion Postman: [docs/postman-collection.json](musica-api/docs/postman-collection.json)
+- Checklist final: [docs/checklist-entrega.md](musica-api/docs/checklist-entrega.md)
