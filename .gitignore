@@ -1,0 +1,13 @@
+target/
+data/
+*.class
+*.log
+*.db
+*.mv.db
+*.trace.db
+.idea/
+.vscode/
+.DS_Store
+
+musica-api/target/
+musica-api/data/
