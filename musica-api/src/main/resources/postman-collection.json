@@ -1,0 +1,348 @@
+{
+  "info": {
+    "_postman_id": "a7f915fd-721b-4f6f-9f58-2a1d0cfc9a11",
+    "name": "Musica API",
+    "description": "Coleccion para probar la API REST de musica con Spring Boot, JPA, H2 y seguridad Basic Auth.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "basic",
+    "basic": [
+      {
+        "key": "username",
+        "value": "admin",
+        "type": "string"
+      },
+      {
+        "key": "password",
+        "value": "admin123",
+        "type": "string"
+      }
+    ]
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Artistas",
+      "item": [
+        {
+          "name": "Listar artistas",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/artistas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "artistas"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar artistas por nombre",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/artistas/buscar?nombre=rosa&sortBy=nombre&order=asc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "artistas",
+                "buscar"
+              ],
+              "query": [
+                {
+                  "key": "nombre",
+                  "value": "rosa"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "nombre"
+                },
+                {
+                  "key": "order",
+                  "value": "asc"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear artista",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Aitana\",\n  \"pais\": \"Espana\",\n  \"generoMusical\": \"Pop\",\n  \"anioDebut\": 2017,\n  \"activo\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/artistas",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "artistas"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Canciones",
+      "item": [
+        {
+          "name": "Listar canciones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/canciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "canciones"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Buscar canciones",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/canciones/buscar?titulo=mal&sortBy=duracion&order=desc",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "canciones",
+                "buscar"
+              ],
+              "query": [
+                {
+                  "key": "titulo",
+                  "value": "mal"
+                },
+                {
+                  "key": "sortBy",
+                  "value": "duracion"
+                },
+                {
+                  "key": "order",
+                  "value": "desc"
+                }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Canciones por artista",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/canciones/artista/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "canciones",
+                "artista",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Contador por artista",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/canciones/artista/1/contador",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "canciones",
+                "artista",
+                "1",
+                "contador"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear cancion",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"titulo\": \"Nueva cancion\",\n  \"artista\": {\n    \"id\": 1\n  },\n  \"album\": \"Demo\",\n  \"duracion\": 180\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/canciones",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "canciones"
+              ]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Playlists",
+      "item": [
+        {
+          "name": "Listar playlists",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/playlists",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "playlists"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Playlists por artista",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/playlists/artista/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "playlists",
+                "artista",
+                "1"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Crear playlist",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"nombre\": \"Entrenamiento\",\n  \"descripcion\": \"Canciones con energia\",\n  \"publica\": true\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/playlists",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "playlists"
+              ]
+            }
+          }
+        },
+        {
+          "name": "Anadir cancion a playlist",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/api/v1/playlists/1/canciones/1",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "api",
+                "v1",
+                "playlists",
+                "1",
+                "canciones",
+                "1"
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
