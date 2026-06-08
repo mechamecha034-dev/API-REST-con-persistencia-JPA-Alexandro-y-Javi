@@ -34,7 +34,7 @@ public class Playlist {
     private Boolean publica;
 
     @ToString.Exclude
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "playlist_canciones",
             joinColumns = @JoinColumn(name = "playlist_id"),
